@@ -33,10 +33,25 @@ const CHOISE_PRICE = {
   [OwnChoise.Scissors]: 3,
 };
 
-export const getCalculateGameScore = ([
-  elfChoise,
-  ownChoise,
-]: RealGameChoises) => {
+export function parser<GameChoises>(input: string) {
+  const gamesChoises = input.split(/\n/).reduce((acc, gameChoises: string) => {
+    if (gameChoises) {
+      const parsedLetters = gameChoises.split(/\s/);
+
+      if (parsedLetters.length !== 2) {
+        throw new Error("Wrong input format");
+      }
+
+      acc.push(parsedLetters as GameChoises);
+    }
+
+    return acc;
+  }, [] as GameChoises[]);
+
+  return gamesChoises;
+}
+
+export function getCalculateGameScore([elfChoise, ownChoise]: RealGameChoises) {
   const elfChoiseIndex = Object.values(ElfChoise).indexOf(elfChoise);
   const ownChoiseIndex = Object.values(OwnChoise).indexOf(ownChoise);
   const resultPrice = (() => {
@@ -54,24 +69,33 @@ export const getCalculateGameScore = ([
   })();
 
   return RESULT_PRICE[resultPrice] + CHOISE_PRICE[ownChoise];
-};
+}
 
-export const parseInput = async <GameChoises>() => {
-  const input = await readFile(path.resolve(__dirname, "./input.txt"), "utf-8");
+export function ownChoiseSelector([
+  elfChoise,
+  ownLetter,
+]: InstructionGameChoises) {
+  const ownChoiseValues = Object.values(OwnChoise);
+  const elfChoiseIndex = Object.values(ElfChoise).indexOf(elfChoise);
 
-  const gamesChoises = input.split(/\n/).reduce((acc, gameChoises: string) => {
-    if (gameChoises) {
-      const parsedLetters = gameChoises.split(/\s/);
+  if (ownLetter === GameResult.Draw) {
+    return ownChoiseValues[elfChoiseIndex];
+  }
 
-      if (parsedLetters.length !== 2) {
-        throw new Error("Wrong input format");
-      }
+  const ownChoiseIndex = (() => {
+    const choiseModifier = ownLetter === GameResult.Lost ? -1 : +1;
+    const initialOwnChoiseIndex = elfChoiseIndex + choiseModifier;
 
-      acc.push(parsedLetters as GameChoises);
+    if (initialOwnChoiseIndex < 0) {
+      return ownChoiseValues.length - 1;
     }
 
-    return acc;
-  }, [] as GameChoises[]);
+    if (initialOwnChoiseIndex > ownChoiseValues.length - 1) {
+      return 0;
+    }
 
-  return gamesChoises;
-};
+    return initialOwnChoiseIndex;
+  })();
+
+  return ownChoiseValues[ownChoiseIndex];
+}

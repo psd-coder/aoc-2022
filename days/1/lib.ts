@@ -1,15 +1,17 @@
-import { readFile } from "fs/promises";
-import path from "path";
+import { arraySum } from "@lib/utils";
 
-export const parseInput = async () => {
-  const input = await readFile(path.resolve(__dirname, "./input.txt"), "utf-8");
+type DayInput = string[][];
 
+export function parser(input: string): DayInput {
   const snackCaloriesByElves: string[][] = input
     .split(/\n\n/)
     .map((elfSnacksStr: string) => elfSnacksStr.split(/\n/));
-  const caloriesPerElf = snackCaloriesByElves.map((values) =>
-    values.reduce((acc, v) => acc + parseInt(v || "0", 10), 0)
-  );
 
-  return caloriesPerElf;
-};
+  return snackCaloriesByElves;
+}
+
+export function sumCalloriesPerElf(snackCaloriesByElves: DayInput) {
+  return snackCaloriesByElves.map((values) =>
+    arraySum(values, (v) => parseInt(v || "0", 10))
+  );
+}
