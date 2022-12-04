@@ -22,3 +22,7 @@ export function arraySum<V>(numbers: V[], valueMapper?: (value: V) => number) {
     return acc + valueMapper(value);
   }, 0);
 }
+
+export function countPositives(arr: boolean[]) {
+  return arr.filter((value) => value).length;
+}
