@@ -2,22 +2,18 @@ type Range = [number, number];
 type PairRanges = [Range, Range];
 
 export function parser(input: string) {
-  const pairsRanges = input.split(/\n/).reduce((acc, pairRangesStr: string) => {
-    if (pairRangesStr) {
-      const pairRanges = pairRangesStr.split(",");
-      const parsedPairRanges = pairRanges.map((elfRange) => {
-        const parsedElfRange = elfRange
-          .split("-")
-          .map((rangeNum) => parseInt(rangeNum, 10));
+  const pairsRanges = input.split(/\n/).map((pairRangesStr: string) => {
+    const pairRanges = pairRangesStr.split(",");
+    const parsedPairRanges = pairRanges.map((elfRange) => {
+      const parsedElfRange = elfRange
+        .split("-")
+        .map((rangeNum) => parseInt(rangeNum, 10));
 
-        return parsedElfRange as Range;
-      }) as PairRanges;
+      return parsedElfRange as Range;
+    }) as PairRanges;
 
-      acc.push(parsedPairRanges);
-    }
-
-    return acc;
-  }, [] as PairRanges[]);
+    return parsedPairRanges as PairRanges;
+  });
 
   return pairsRanges;
 }

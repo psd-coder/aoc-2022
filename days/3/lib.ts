@@ -5,13 +5,11 @@ type RucksackCompartements = [ItemType[], ItemType[]];
 export function parser(input: string) {
   const allRucksackItemTypes = input
     .split(/\n/)
-    .reduce((acc, rucksackItemTypesStr: string) => {
-      if (rucksackItemTypesStr) {
-        acc.push(rucksackItemTypesStr.split(""));
-      }
+    .map((rucksackItemTypesStr: string) => {
+      const rucksackItemTypes = rucksackItemTypesStr.split("");
 
-      return acc;
-    }, [] as RucksackItemTypes[]);
+      return rucksackItemTypes as RucksackItemTypes;
+    });
 
   return allRucksackItemTypes;
 }

@@ -33,17 +33,12 @@ const CHOISE_PRICE = {
 };
 
 export function parser<GameChoises>(input: string) {
-  const gamesChoises = input.split(/\n/).reduce((acc, gameChoises: string) => {
-    if (gameChoises) {
-      const parsedLetters = gameChoises.split(/\s/);
+  const gamesChoises = input.split(/\n/).map((gameChoises: string) => {
+    const parsedLetters = gameChoises.split(/\s/);
+    assert(parsedLetters.length === 2, "Wrong input format");
 
-      assert(parsedLetters.length === 2, "Wrong input format");
-
-      acc.push(parsedLetters as GameChoises);
-    }
-
-    return acc;
-  }, [] as GameChoises[]);
+    return parsedLetters as GameChoises;
+  });
 
   return gamesChoises;
 }

@@ -35,11 +35,22 @@ function buildDayFolderPaths(day: number) {
   return { daySolutionsPath, dayInputPath };
 }
 
+const END_LINE_BREAK = /\n$/;
+function trimEndLineBreak(data: string) {
+  return data.replace(END_LINE_BREAK, "");
+}
+
+function readData(dayInputPath: string) {
+  const data = readFileSync(dayInputPath, "utf-8");
+
+  return trimEndLineBreak(data);
+}
+
 async function main() {
   const passedDay = parseDayParam();
   const { daySolutionsPath, dayInputPath } = buildDayFolderPaths(passedDay);
   const { default: dayRunner } = await import(daySolutionsPath);
-  const parsedData = readFileSync(dayInputPath, "utf-8");
+  const parsedData = readData(dayInputPath);
   const results = dayRunner(parsedData);
 
   [1, 2].forEach((partNumber) => {
