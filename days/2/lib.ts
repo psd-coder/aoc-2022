@@ -1,5 +1,4 @@
-import { readFile } from "fs/promises";
-import path from "path";
+import { assert } from "@lib/utils";
 
 export enum ElfChoise {
   Rock = "A",
@@ -38,9 +37,7 @@ export function parser<GameChoises>(input: string) {
     if (gameChoises) {
       const parsedLetters = gameChoises.split(/\s/);
 
-      if (parsedLetters.length !== 2) {
-        throw new Error("Wrong input format");
-      }
+      assert(parsedLetters.length === 2, "Wrong input format");
 
       acc.push(parsedLetters as GameChoises);
     }

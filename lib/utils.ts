@@ -26,3 +26,21 @@ export function arraySum<V>(numbers: V[], valueMapper?: (value: V) => number) {
 export function countPositives(arr: boolean[]) {
   return arr.filter((value) => value).length;
 }
+
+export function assert(
+  condition: boolean,
+  message: string
+): asserts condition is true {
+  if (!condition) {
+    throw new Error(message);
+  }
+}
+
+export function assertNonNullable<V>(
+  value: V | null | undefined,
+  message: string
+): asserts value is NonNullable<V> {
+  if (value === null || value === undefined) {
+    throw new Error(message);
+  }
+}
