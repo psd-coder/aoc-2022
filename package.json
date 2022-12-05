@@ -1,7 +1,7 @@
 {
   "type": "commonjs",
   "devDependencies": {
-    "@types/node": "^16.18.4",
+    "@types/node": "^18.11.10",
     "prettier": "2.8.0",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.1.1",
@@ -10,5 +10,8 @@
   },
   "scripts": {
     "solve": "ts-node ./lib/runner.ts"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
