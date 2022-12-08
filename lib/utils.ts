@@ -1,11 +1,11 @@
 export const objectKeys = <Obj extends Record<string, unknown>>(
-  object: Obj
+  object: Obj,
 ): Array<keyof Obj & string> => Object.keys(object);
 
 export function arraySum(numbers: number[]): number;
 export function arraySum<V>(
   numbers: V[],
-  valueMapper: (value: V) => number
+  valueMapper: (value: V) => number,
 ): number;
 export function arraySum<V>(numbers: V[], valueMapper?: (value: V) => number) {
   return numbers.reduce((acc, value) => {
@@ -15,7 +15,7 @@ export function arraySum<V>(numbers: V[], valueMapper?: (value: V) => number) {
       }
 
       throw new Error(
-        "You must either pass array of numbers or provide valueMappper param"
+        "You must either pass array of numbers or provide valueMappper param",
       );
     }
 
@@ -29,7 +29,7 @@ export function countPositives(arr: boolean[]) {
 
 export function assert(
   condition: boolean,
-  message: string
+  message: string,
 ): asserts condition is true {
   if (!condition) {
     throw new Error(message);
@@ -38,7 +38,7 @@ export function assert(
 
 export function assertNonNullable<V>(
   value: V | null | undefined,
-  message: string
+  message: string,
 ): asserts value is NonNullable<V> {
   if (value === null || value === undefined) {
     throw new Error(message);

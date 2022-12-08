@@ -1,13 +1,13 @@
-import { day, part } from "@lib/define";
-import { arraySum } from "@lib/utils";
+import { day, part } from "/lib/define.ts";
+import { arraySum } from "/lib/utils.ts";
 
 import {
-  RealGameChoises,
-  InstructionGameChoises,
-  parser,
   getCalculateGameScore,
+  InstructionGameChoises,
   ownChoiseSelector,
-} from "./lib";
+  parser,
+  RealGameChoises,
+} from "./lib.ts";
 
 export default day({
   part1: part<RealGameChoises[]>({

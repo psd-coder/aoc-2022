@@ -1,4 +1,4 @@
-import { assertNonNullable } from "@lib/utils";
+import { assertNonNullable } from "/lib/utils.ts";
 
 type StackName = string;
 type StackSupplies = string[];
@@ -77,8 +77,8 @@ export function applyCommands(
   commands: Command[],
   getMovedItems: (
     fromStackSupplies: StackSupplies,
-    count: number
-  ) => StackSupplies
+    count: number,
+  ) => StackSupplies,
 ) {
   const stackIndexes = stacks.reduce((acc, { name }, index) => {
     acc[name] = index;
@@ -101,14 +101,14 @@ export function applyCommands(
 
 export function getMovedItemsByOne(
   stackSupplies: StackSupplies,
-  count: number
+  count: number,
 ) {
   return stackSupplies.slice(count * -1).reverse();
 }
 
 export function getMovedItemsByGroup(
   stackSupplies: StackSupplies,
-  count: number
+  count: number,
 ) {
   return stackSupplies.slice(count * -1);
 }

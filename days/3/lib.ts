@@ -25,7 +25,7 @@ export function getRucksackCompartments(rucksackItemTypes: RucksackItemTypes) {
 }
 
 export function getBothCompartmensItemType(
-  allRucksackCompartements: RucksackCompartements[]
+  allRucksackCompartements: RucksackCompartements[],
 ) {
   const bothCompartmentsItemType = allRucksackCompartements.map(
     ([firstCompartmentItemTypes, secondCompartmentItemTypes]) => {
@@ -36,7 +36,7 @@ export function getBothCompartmensItemType(
       }
 
       throw new Error("Item type must present in both compartments");
-    }
+    },
   );
 
   return bothCompartmentsItemType;
@@ -44,7 +44,7 @@ export function getBothCompartmensItemType(
 
 const ELF_GROUP_SIZE = 3;
 export function getElfGroupCommonItemType(
-  allRucksackItemTypes: RucksackItemTypes[]
+  allRucksackItemTypes: RucksackItemTypes[],
 ) {
   const elfGroupRucksackItemTypes: RucksackItemTypes[][] = [];
 
@@ -58,7 +58,7 @@ export function getElfGroupCommonItemType(
     i += ELF_GROUP_SIZE
   ) {
     elfGroupRucksackItemTypes.push(
-      allRucksackItemTypes.slice(i, i + ELF_GROUP_SIZE)
+      allRucksackItemTypes.slice(i, i + ELF_GROUP_SIZE),
     );
   }
 
@@ -70,7 +70,7 @@ export function getCommonItemTypeInRucksacks(rucksacks: RucksackItemTypes[]) {
   const maxRucksackItemCount = Math.max(...rucksacksItemCounts);
   const biggestRucksack = rucksacks.splice(
     rucksacksItemCounts.indexOf(maxRucksackItemCount),
-    1
+    1,
   )[0];
 
   for (let i = 0; i < maxRucksackItemCount; i++) {

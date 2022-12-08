@@ -1,6 +1,6 @@
-import { day, part } from "@lib/define";
-import { arraySum } from "@lib/utils";
-import { parser, sumCalloriesPerElf } from "./lib";
+import { day, part } from "/lib/define.ts";
+import { arraySum } from "/lib/utils.ts";
+import { parser, sumCalloriesPerElf } from "./lib.ts";
 
 export default day({
   part1: part({

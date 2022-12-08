@@ -1,7 +1,7 @@
-import { day, part } from "@lib/define";
-import { arraySum, assertNonNullable } from "@lib/utils";
+import { day, part } from "/lib/define.ts";
+import { arraySum, assertNonNullable } from "/lib/utils.ts";
 
-import { parser, getDirSizesMap as getDirSizesMap } from "./lib";
+import { getDirSizesMap as getDirSizesMap, parser } from "./lib.ts";
 
 export default day({
   part1: part({
@@ -32,7 +32,7 @@ export default day({
 
       assertNonNullable(
         minAppropriableDirSize,
-        "There no any appropriable directories to remove"
+        "There no any appropriable directories to remove",
       );
 
       return minAppropriableDirSize;

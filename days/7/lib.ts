@@ -1,4 +1,4 @@
-import { assert, assertNonNullable } from "@lib/utils";
+import { assert, assertNonNullable } from "/lib/utils.ts";
 
 // Tree
 enum NodeType {
@@ -51,12 +51,12 @@ function isCommand(row: string) {
 function parseCommand(row: string): { command: Command; arg: string } {
   const [command, arg] = row.replace(/^\$\s/, "").split(" ") as [
     Command,
-    string
+    string,
   ];
 
   assert(
     Object.values(Command).includes(command),
-    `Unknown command in the input: "${command}"`
+    `Unknown command in the input: "${command}"`,
   );
 
   return { command, arg };
@@ -91,7 +91,7 @@ export function parser(input: string): Dir {
           case "..": {
             assertNonNullable(
               currentDir.parent,
-              "It is already the root directory, so it isn't possible go higher"
+              "It is already the root directory, so it isn't possible go higher",
             );
 
             currentDir = currentDir.parent;
@@ -99,7 +99,7 @@ export function parser(input: string): Dir {
           }
           default: {
             let dir = currentDir.children.find(
-              (node) => isDir(node) && node.name === arg
+              (node) => isDir(node) && node.name === arg,
             ) as Dir | undefined;
 
             if (!dir) {
@@ -131,7 +131,7 @@ function traverseNode(node: Node, nodeHandler: (node: Node) => void) {
     nodeHandler(node);
   } else {
     throw new Error(
-      `Traverse function doesn't support such tree node: "${node.type}"`
+      `Traverse function doesn't support such tree node: "${node.type}"`,
     );
   }
 }
@@ -147,8 +147,8 @@ export function logTree(tree: Dir) {
 
         return value;
       },
-      2
-    )
+      2,
+    ),
   );
 }
 
@@ -159,7 +159,7 @@ export function getDirSizesMap(tree: Dir) {
     if (isDir(node)) {
       if (result.has(node)) {
         throw new Error(
-          `Directory with the name "${node.name}" already registered. Wrong traversing!`
+          `Directory with the name "${node.name}" already registered. Wrong traversing!`,
         );
       }
 
@@ -172,7 +172,7 @@ export function getDirSizesMap(tree: Dir) {
 
         assertNonNullable(
           currentParentSize,
-          "Directory must be first registered in the map. Wrong traversing!"
+          "Directory must be first registered in the map. Wrong traversing!",
         );
 
         result.set(parent, currentParentSize + node.size);

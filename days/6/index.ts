@@ -1,6 +1,6 @@
-import { day, part } from "@lib/define";
+import { day, part } from "/lib/define.ts";
 
-import { parser, findFirstNUniqueCharacters } from "./lib";
+import { findFirstNUniqueCharacters, parser } from "./lib.ts";
 
 const PACKET_UNIQUE_CHARS_SIZE = 4;
 const MESSAGE_UNIQUE_CHARS_SIZE = 14;
@@ -11,7 +11,7 @@ export default day({
     solver: (chars) => {
       const firstPacketAt = findFirstNUniqueCharacters(
         chars,
-        PACKET_UNIQUE_CHARS_SIZE
+        PACKET_UNIQUE_CHARS_SIZE,
       );
 
       return firstPacketAt + PACKET_UNIQUE_CHARS_SIZE;
@@ -22,7 +22,7 @@ export default day({
     solver: (chars) => {
       const firstMessageAt = findFirstNUniqueCharacters(
         chars,
-        MESSAGE_UNIQUE_CHARS_SIZE
+        MESSAGE_UNIQUE_CHARS_SIZE,
       );
 
       return firstMessageAt + MESSAGE_UNIQUE_CHARS_SIZE;

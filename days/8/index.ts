@@ -1,6 +1,6 @@
-import { day, part } from "@lib/define";
+import { day, part } from "/lib/define.ts";
 
-import { parser, countVisibleTrees, calculateBestScenicScore } from "./lib";
+import { calculateBestScenicScore, countVisibleTrees, parser } from "./lib.ts";
 
 export default day({
   part1: part({

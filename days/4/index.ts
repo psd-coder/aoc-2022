@@ -1,7 +1,7 @@
-import { day, part } from "@lib/define";
-import { countPositives } from "@lib/utils";
+import { day, part } from "/lib/define.ts";
+import { countPositives } from "/lib/utils.ts";
 
-import { parser, isFullyOverlap, isIntersect } from "./lib";
+import { isFullyOverlap, isIntersect, parser } from "./lib.ts";
 
 export default day({
   part1: part({

@@ -1,0 +1,6 @@
+{
+  "importMap": "import_map.json",
+  "tasks": {
+    "solve": "deno run --allow-read=. lib/runner.ts"
+  }
+}

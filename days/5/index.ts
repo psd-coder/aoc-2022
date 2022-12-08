@@ -1,12 +1,12 @@
-import { day, part } from "@lib/define";
+import { day, part } from "/lib/define.ts";
 
 import {
-  parser,
   applyCommands,
-  getMovedItemsByOne,
   getMovedItemsByGroup,
+  getMovedItemsByOne,
   getTopStackSupplies,
-} from "./lib";
+  parser,
+} from "./lib.ts";
 
 export default day({
   part1: part({
@@ -15,7 +15,7 @@ export default day({
       const processedStacks = applyCommands(
         stacks,
         commands,
-        getMovedItemsByOne
+        getMovedItemsByOne,
       );
       const topStackSupplies = getTopStackSupplies(processedStacks);
 
@@ -28,7 +28,7 @@ export default day({
       const processedStacks = applyCommands(
         stacks,
         commands,
-        getMovedItemsByGroup
+        getMovedItemsByGroup,
       );
       const topStackSupplies = getTopStackSupplies(processedStacks);
 

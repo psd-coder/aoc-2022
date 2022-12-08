@@ -1,5 +1,5 @@
-import { objectKeys } from "./utils";
-import { DayParts, DayPartConfig, DayResults } from "./types";
+import { objectKeys } from "./utils.ts";
+import { DayPartConfig, DayParts, DayResults } from "./types.ts";
 
 export function day(parts: DayParts) {
   return (input: string) =>

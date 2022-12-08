@@ -1,4 +1,4 @@
-import { arraySum } from "@lib/utils";
+import { arraySum } from "/lib/utils.ts";
 
 type DayInput = string[][];
 

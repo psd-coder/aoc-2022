@@ -17,7 +17,7 @@ export function parser(input: string) {
 
 function iterateOverTreesMap(
   treesMap: TreesMap,
-  handle: (rowIndex: number, columnIndex: number) => void
+  handle: (rowIndex: number, columnIndex: number) => void,
 ) {
   treesMap.forEach((row, rowIndex) =>
     row.forEach((_, columnIndex) => handle(rowIndex, columnIndex))
@@ -57,7 +57,7 @@ function getColumnTrees(
   treesMap: TreesMap,
   columnIndex: number,
   from: number,
-  to: number
+  to: number,
 ) {
   const trees = [];
 
@@ -70,7 +70,7 @@ function getColumnTrees(
 
 function areAllTreesSmaller(
   targetHeight: TreeHeight,
-  compareWith: TreeHeight[]
+  compareWith: TreeHeight[],
 ) {
   return compareWith.every((treeHeight) => treeHeight < targetHeight);
 }
@@ -78,7 +78,7 @@ function areAllTreesSmaller(
 export function isVisible(
   treesMap: TreesMap,
   rowIndex: number,
-  columnIndex: number
+  columnIndex: number,
 ) {
   const mapSize = getMapSize(treesMap);
 
@@ -133,19 +133,19 @@ function countVisibleDistance(
   treesMap: TreesMap,
   rowIndex: Range,
   columnIndex: number,
-  treeHeight: TreeHeight
+  treeHeight: TreeHeight,
 ): number;
 function countVisibleDistance(
   treesMap: TreesMap,
   rowIndex: number,
   columnIndex: Range,
-  treeHeight: TreeHeight
+  treeHeight: TreeHeight,
 ): number;
 function countVisibleDistance(
   treesMap: TreesMap,
   rowIndex: number | Range,
   columnIndex: number | Range,
-  treeHeight: TreeHeight
+  treeHeight: TreeHeight,
 ) {
   let visibleTreesCount = 0;
   // We already know from overrides types that either rowIndex or columnIndex is range
@@ -170,7 +170,7 @@ function countVisibleDistance(
 export function calculateTreeScenicScore(
   treesMap: TreesMap,
   rowIndex: number,
-  columnIndex: number
+  columnIndex: number,
 ) {
   const mapSize = getMapSize(treesMap);
   const currentTreeHeight = treesMap[rowIndex][columnIndex];
@@ -184,7 +184,7 @@ export function calculateTreeScenicScore(
       treesMap,
       { from: rowIndex - 1, to: 0 },
       columnIndex,
-      currentTreeHeight
+      currentTreeHeight,
     ),
     /* ⬇️ */ countVisibleDistance(
       treesMap,
@@ -193,13 +193,13 @@ export function calculateTreeScenicScore(
         to: mapSize.columnSize - 1,
       },
       columnIndex,
-      currentTreeHeight
+      currentTreeHeight,
     ),
     /* ⬅️ */ countVisibleDistance(
       treesMap,
       rowIndex,
       { from: columnIndex - 1, to: 0 },
-      currentTreeHeight
+      currentTreeHeight,
     ),
     /* ➡️ */ countVisibleDistance(
       treesMap,
@@ -208,13 +208,13 @@ export function calculateTreeScenicScore(
         from: columnIndex + 1,
         to: mapSize.rowSize - 1,
       },
-      currentTreeHeight
+      currentTreeHeight,
     ),
   ];
 
   const scenicScore = treeVisibility.reduce(
     (acc, visibility) => acc * visibility,
-    1
+    1,
   );
 
   return scenicScore;
@@ -227,7 +227,7 @@ export function calculateBestScenicScore(treesMap: TreesMap) {
     const treeScenicScore = calculateTreeScenicScore(
       treesMap,
       rowIndex,
-      columnIndex
+      columnIndex,
     );
 
     if (treeScenicScore > bestScenicScore) {

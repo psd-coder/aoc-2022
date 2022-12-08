@@ -1,4 +1,4 @@
-import { assert } from "@lib/utils";
+import { assert } from "/lib/utils.ts";
 
 export enum ElfChoise {
   Rock = "A",
@@ -53,8 +53,7 @@ export function getCalculateGameScore([elfChoise, ownChoise]: RealGameChoises) {
       return GameResult.Draw;
     }
 
-    const isWin =
-      ownChoiseIndex - elfChoiseIndex === 1 ||
+    const isWin = ownChoiseIndex - elfChoiseIndex === 1 ||
       (ownChoise === OwnChoise.Rock && elfChoise === ElfChoise.Scissors);
 
     return isWin ? GameResult.Win : GameResult.Lost;

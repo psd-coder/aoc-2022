@@ -1,15 +1,14 @@
-import { readFileSync, existsSync } from "fs";
-import path from "path";
+import { join } from "https://deno.land/std@0.167.0/path/mod.ts";
 
 function exitWithError(message: string): never {
   console.error("\x1b[31m%s\x1b[31m", message);
-  process.exit(1);
+  Deno.exit(1);
 }
 
 function parseDayParam() {
-  const passedDay = process.argv.at(-1);
+  const passedDay = Deno.args[0];
 
-  if (process.argv.length <= 2 || !passedDay || !/^\d+$/.test(passedDay)) {
+  if (Deno.args.length < 1 || !passedDay || !/^\d+$/.test(passedDay)) {
     exitWithError('You must pass valid day. Like "npm run solve 1"');
   }
 
@@ -17,17 +16,22 @@ function parseDayParam() {
 }
 
 function buildDayFolderPaths(day: number) {
-  const dayFolderPath = path.resolve(__dirname, "../days", String(day));
-  const daySolutionsPath = path.resolve(dayFolderPath, "index.ts");
-  const dayInputPath = path.resolve(dayFolderPath, "input.txt");
+  const dayFolderPath = join("./days", String(day));
+  const daySolutionsPath = join(dayFolderPath, "index.ts");
+  const dayInputPath = join(dayFolderPath, "input.txt");
 
-  if (!existsSync(dayFolderPath)) {
+  try {
+    Deno.statSync(dayFolderPath);
+  } catch {
     exitWithError(
-      `Folder with solutions for the day you passed (${day}) isn't present`
+      `Folder with solutions for the day you passed (${day}) isn't present`,
     );
   }
+
   [dayInputPath, daySolutionsPath].forEach((filePath) => {
-    if (!existsSync(filePath)) {
+    try {
+      Deno.statSync(filePath);
+    } catch {
       exitWithError(`Solution file "${filePath}" isn't present`);
     }
   });
@@ -41,7 +45,7 @@ function trimEndLineBreak(data: string) {
 }
 
 function readData(dayInputPath: string) {
-  const data = readFileSync(dayInputPath, "utf-8");
+  const data = Deno.readTextFileSync(dayInputPath);
 
   return trimEndLineBreak(data);
 }
@@ -49,7 +53,7 @@ function readData(dayInputPath: string) {
 async function main() {
   const passedDay = parseDayParam();
   const { daySolutionsPath, dayInputPath } = buildDayFolderPaths(passedDay);
-  const { default: dayRunner } = await import(daySolutionsPath);
+  const { default: dayRunner } = await import(`../${daySolutionsPath}`);
   const parsedData = readData(dayInputPath);
   const results = dayRunner(parsedData);
 
@@ -59,7 +63,7 @@ async function main() {
     console.log(
       "\x1b[36m%s\x1b[0m",
       `Part ${partNumber} answer: `,
-      results[key] ?? "not solved"
+      results[key] ?? "not solved",
     );
   });
 }
