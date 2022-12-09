@@ -6,13 +6,13 @@ enum Direction {
   Down = "D",
   Left = "L",
 }
-
-type Position = { x: number; y: number };
-
-interface Movement {
+type Movement = {
   dir: Direction;
   steps: number;
-}
+};
+
+type Knot = { x: number; y: number };
+type Rope = Knot[];
 
 function assertDirection(value: string): asserts value is Direction {
   assert(
@@ -34,75 +34,73 @@ export function parser(input: string) {
   return movements;
 }
 
-function strPosition(pos: Position) {
-  return `${pos.x}-${pos.y}`;
+export function getRope(knots: number): Rope {
+  return Array.from({ length: knots }, () => ({ x: 0, y: 0 }));
 }
 
-function moveKnot(pos: Position, dir: Direction): Position {
+function moveHead(knot: Knot, dir: Direction): Knot {
   switch (dir) {
     case Direction.Up:
-      return { ...pos, y: pos.y - 1 };
+      return { x: knot.x, y: knot.y - 1 };
     case Direction.Right:
-      return { ...pos, x: pos.x + 1 };
+      return { x: knot.x + 1, y: knot.y };
     case Direction.Down:
-      return { ...pos, y: pos.y + 1 };
+      return { x: knot.x, y: knot.y + 1 };
     case Direction.Left:
-      return { ...pos, x: pos.x - 1 };
+      return { x: knot.x - 1, y: knot.y };
   }
 }
 
-function simulateTailMovement(
-  headPos: Position,
-  tailPos: Position,
-): Position {
-  const xDiff = headPos.x - tailPos.x;
-  const yDiff = headPos.y - tailPos.y;
-  const xDiffAbs = Math.abs(xDiff);
-  const yDiffAbs = Math.abs(yDiff);
-  const xDiffSign = Math.sign(xDiff);
-  const yDiffSign = Math.sign(yDiff);
+function followHead(
+  headKnot: Knot,
+  tailKnot: Knot,
+): Knot {
+  const xDiff = headKnot.x - tailKnot.x;
+  const yDiff = headKnot.y - tailKnot.y;
 
-  // Horizontal movement
-  if (xDiffAbs > 1 && yDiff === 0) {
-    return { x: tailPos.x + xDiffSign, y: tailPos.y };
+  if (Math.abs(xDiff) < 2 && Math.abs(yDiff) < 2) {
+    return tailKnot;
   }
 
-  // Vertical movement
-  if (xDiff === 0 && yDiffAbs > 1) {
-    return { x: tailPos.x, y: tailPos.y + yDiffSign };
-  }
-
-  // Diagonal movement
-  if (xDiffAbs > 1) {
-    return { y: headPos.y, x: tailPos.x + xDiffSign };
-  }
-
-  if (yDiffAbs > 1) {
-    return { x: headPos.x, y: tailPos.y + yDiffSign };
-  }
-
-  return tailPos;
+  return {
+    x: tailKnot.x + Math.sign(xDiff),
+    y: tailKnot.y + Math.sign(yDiff),
+  };
 }
 
-export function runMovements(movements: Movement[]) {
-  let headPos: Position = { x: 0, y: 0 };
-  let tailPos: Position = headPos;
+function getLastKnotCoordinates(rope: Rope) {
+  const lastKnot = rope[rope.length - 1];
 
-  const tailVisitedPositions = new Set([strPosition(tailPos)]);
+  return `${lastKnot.x},${lastKnot.y}`;
+}
+
+export function runSimulation(
+  rope: Rope,
+  movements: Movement[],
+) {
+  const knotsCount = rope.length;
+
+  assert(
+    knotsCount >= 2,
+    "Rope must contain at least two knots: Head and Tail",
+  );
+
+  const tailVisitedPositions = new Set([getLastKnotCoordinates(rope)]);
 
   movements.forEach((movement) => {
-    console.log("---movement", movement);
+    for (let step = 0; step < movement.steps; step++) {
+      rope[0] = moveHead(rope[0], movement.dir);
 
-    for (let i = 0; i < movement.steps; i++) {
-      headPos = moveKnot(headPos, movement.dir);
-      tailPos = simulateTailMovement(headPos, tailPos);
-      console.log("   step", { headPos, tailPos });
+      for (let knotIndex = 1; knotIndex < knotsCount; knotIndex++) {
+        rope[knotIndex] = followHead(
+          rope[knotIndex - 1],
+          rope[knotIndex],
+        );
+      }
 
-      tailVisitedPositions.add(strPosition(tailPos));
+      tailVisitedPositions.add(getLastKnotCoordinates(rope));
     }
   });
-
-  console.log(tailVisitedPositions);
 
   return tailVisitedPositions.size;
 }
