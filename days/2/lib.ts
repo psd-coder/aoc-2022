@@ -1,4 +1,4 @@
-import { assert } from "/lib/utils.ts";
+import { assert } from "/lib/helpers.ts";
 
 export enum ElfChoise {
   Rock = "A",

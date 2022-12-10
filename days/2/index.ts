@@ -1,5 +1,5 @@
 import { day, part } from "/lib/define.ts";
-import { arraySum } from "/lib/utils.ts";
+import { arraySum } from "/lib/helpers.ts";
 
 import {
   getCalculateGameScore,

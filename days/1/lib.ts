@@ -1,17 +1,24 @@
-import { arraySum } from "/lib/utils.ts";
+import { arraySum } from "/lib/helpers.ts";
 
-type DayInput = string[][];
+type ElfCalories = number;
+type DayInput = ElfCalories[][];
 
 export function parser(input: string): DayInput {
-  const snackCaloriesByElves: string[][] = input
+  const snackCaloriesByElves: ElfCalories[][] = input
     .split(/\n\n/)
-    .map((elfSnacksStr: string) => elfSnacksStr.split(/\n/));
+    .map((elfSnacksStr: string) =>
+      elfSnacksStr.split(/\n/).map((v) => parseInt(v || "0", 10))
+    );
 
   return snackCaloriesByElves;
 }
 
-export function sumCalloriesPerElf(snackCaloriesByElves: DayInput) {
-  return snackCaloriesByElves.map((values) =>
-    arraySum(values, (v) => parseInt(v || "0", 10))
-  );
+export function sumElvesCallories(
+  snackCaloriesByElves: DayInput,
+): ElfCalories[] {
+  return snackCaloriesByElves.map((values) => arraySum(values));
+}
+
+export function mostCalloriesElf(elvesCalories: ElfCalories[]) {
+  return Math.max(...elvesCalories);
 }

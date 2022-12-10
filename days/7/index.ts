@@ -1,5 +1,5 @@
 import { day, part } from "/lib/define.ts";
-import { arraySum, assertNonNullable } from "/lib/utils.ts";
+import { arraySum, assertNonNullable } from "/lib/helpers.ts";
 
 import { getDirSizesMap as getDirSizesMap, parser } from "./lib.ts";
 

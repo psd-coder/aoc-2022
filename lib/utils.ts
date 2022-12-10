@@ -1,46 +1,23 @@
-export const objectKeys = <Obj extends Record<string, unknown>>(
-  object: Obj,
-): Array<keyof Obj & string> => Object.keys(object);
+import { join } from "https://deno.land/std@0.167.0/path/mod.ts";
 
-export function arraySum(numbers: number[]): number;
-export function arraySum<V>(
-  numbers: V[],
-  valueMapper: (value: V) => number,
-): number;
-export function arraySum<V>(numbers: V[], valueMapper?: (value: V) => number) {
-  return numbers.reduce((acc, value) => {
-    if (!valueMapper) {
-      if (typeof value === "number") {
-        return acc + value;
-      }
-
-      throw new Error(
-        "You must either pass array of numbers or provide valueMappper param",
-      );
-    }
-
-    return acc + valueMapper(value);
-  }, 0);
+const END_LINE_BREAK = /\n$/;
+function trimEndLineBreak(data: string) {
+  return data.replace(END_LINE_BREAK, "");
 }
 
-export function countPositives(arr: boolean[]) {
-  return arr.filter((value) => value).length;
-}
+export function readData(
+  filePath: string,
+  relativeImportMeta?: ImportMeta,
+) {
+  let fullPath = filePath;
 
-export function assert(
-  condition: boolean,
-  message: string,
-): asserts condition is true {
-  if (!condition) {
-    throw new Error(message);
+  if (relativeImportMeta) {
+    const dirname = new URL(".", relativeImportMeta.url).pathname;
+
+    fullPath = join(dirname, filePath);
   }
-}
 
-export function assertNonNullable<V>(
-  value: V | null | undefined,
-  message: string,
-): asserts value is NonNullable<V> {
-  if (value === null || value === undefined) {
-    throw new Error(message);
-  }
+  const data = Deno.readTextFileSync(fullPath);
+
+  return trimEndLineBreak(data);
 }

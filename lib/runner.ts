@@ -1,5 +1,7 @@
 import { join } from "https://deno.land/std@0.167.0/path/mod.ts";
 
+import { readData } from "./utils.ts";
+
 function exitWithError(message: string): never {
   console.error("\x1b[31m%s\x1b[31m", message);
   Deno.exit(1);
@@ -39,19 +41,9 @@ function buildDayFolderPaths(day: number) {
   return { daySolutionsPath, dayInputPath };
 }
 
-const END_LINE_BREAK = /\n$/;
-function trimEndLineBreak(data: string) {
-  return data.replace(END_LINE_BREAK, "");
-}
-
-function readData(dayInputPath: string) {
-  const data = Deno.readTextFileSync(dayInputPath);
-
-  return trimEndLineBreak(data);
-}
-
 async function main() {
   const passedDay = parseDayParam();
+
   const { daySolutionsPath, dayInputPath } = buildDayFolderPaths(passedDay);
   const { default: dayRunner } = await import(`../${daySolutionsPath}`);
   const parsedData = readData(dayInputPath);

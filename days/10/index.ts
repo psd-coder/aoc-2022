@@ -7,7 +7,7 @@ import {
   parser,
   renderImage,
 } from "./lib.ts";
-import { arraySum } from "../../lib/utils.ts";
+import { arraySum } from "../../lib/helpers.ts";
 
 export default day({
   part1: part({

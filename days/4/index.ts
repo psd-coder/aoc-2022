@@ -1,5 +1,5 @@
 import { day, part } from "/lib/define.ts";
-import { countPositives } from "/lib/utils.ts";
+import { countPositives } from "/lib/helpers.ts";
 
 import { isFullyOverlap, isIntersect, parser } from "./lib.ts";
 
