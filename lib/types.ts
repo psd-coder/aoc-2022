@@ -11,5 +11,6 @@ export type DayPartConfig<ParsedData> = {
 
 export type DayPartRunner<ParsedData> = (parsed: ParsedData) => SolutionResult;
 
+// deno-lint-ignore no-explicit-any
 export type DayParts = { [K in PartNames]?: DayPartRunner<any> };
 export type DayResults = { [K in PartNames]?: SolutionResult };

@@ -152,7 +152,7 @@ function countVisibleDistance(
   const { from, to } = (isRange(rowIndex) ? rowIndex : columnIndex) as Range;
   const isAscending = from < to;
   const isContinue = (i: number) => (isAscending ? i <= to : i >= to);
-  let increment = isAscending ? 1 : -1;
+  const increment = isAscending ? 1 : -1;
 
   for (let i = from; isContinue(i); i += increment) {
     visibleTreesCount += 1;

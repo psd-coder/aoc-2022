@@ -74,7 +74,7 @@ function parseLsOutputLine(row: string, parent: Dir) {
 
 export function parser(input: string): Dir {
   const rows = input.split(/\n/);
-  let tree: Dir = createDir("/", null);
+  const tree: Dir = createDir("/", null);
   let currentDir: Dir = tree;
   let lastCommand: Command;
 
@@ -140,7 +140,7 @@ export function logTree(tree: Dir) {
   console.log(
     JSON.stringify(
       structuredClone(tree),
-      (key, value) => {
+      (_, value) => {
         if (typeof value === "object" && "parent" in value) {
           delete value.parent;
         }
