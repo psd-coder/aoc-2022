@@ -23,6 +23,9 @@ export function arraySum<V>(numbers: V[], valueMapper?: (value: V) => number) {
   }, 0);
 }
 
+export const filterBoolean = <T>(arr: T[]) =>
+  arr.filter(Boolean) as Exclude<T, false | null | undefined>[];
+
 export function countPositives(arr: boolean[]) {
   return arr.filter((value) => value).length;
 }
